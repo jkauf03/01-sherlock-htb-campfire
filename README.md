@@ -42,19 +42,25 @@ Identified PowerView-related code on `Forela-Wkstn001.forela.local`, referencing
 
 The script contained Active Directory enumeration functions such as `Get-NetUser`, `Get-NetComputer`, and `Get-NetGroupMember`.
 
-## 3. Prefetch Analysis
+3. Prefetch and Event Log Analysis
 
-Used PECmd to parse workstation Prefetch artifacts.
+Reviewed Windows events following the PowerView discovery to correlate suspicious activity.
 
-```powershell
+Parsed workstation Prefetch artifacts using PECmd:
+
 .\PECmd.exe -d "PATH_TO_PREFETCH" --csv . --csvf campfire-prefetch.csv -q
-```
 
-Processed 207 of 212 Prefetch files and examined the results in Timeline Explorer.
+Analyzed 207 Prefetch files in Timeline Explorer.
 
-Identified `RUBEUS.EXE` executing from the `alonzo.spire` Downloads directory on May 21, 2024, at 03:18:08.
+Findings:
 
-Rubeus is a Kerberos-focused tool capable of performing Kerberoasting.
+Executable: RUBEUS.EXE
+
+Execution: 2024-05-21 03:18:08
+
+Path: \USERS\ALONZO.SPIRE\DOWNLOADS\RUBEUS.EXE
+
+Rubeus execution, PowerView activity, and suspicious Kerberos ticket requests collectively supported suspected Kerberoasting.
 
 ## Conclusion
 
